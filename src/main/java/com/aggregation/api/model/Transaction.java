@@ -16,7 +16,7 @@ public class Transaction {
     private String update;
     private String description;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 

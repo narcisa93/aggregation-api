@@ -2,9 +2,7 @@ package com.aggregation.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -25,7 +23,18 @@ public class Account implements Serializable {
     @JsonIgnore
     private Set<Transaction> transactions;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
+
     public Account() {
+    }
+
+    public Account(String id, String product, Double balance) {
+        this.id = id;
+        this.product = product;
+        this.balance = balance;
     }
 
     public String getId() {
@@ -90,6 +99,14 @@ public class Account implements Serializable {
 
     public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

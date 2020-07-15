@@ -20,6 +20,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<Account> findAccountsByUserId(Long userId) {
+        return accountRepository.findByUserId(userId);
+    }
+
+    @Override
     public Account saveAccount(Account account) {
         return accountRepository.save(account);
     }

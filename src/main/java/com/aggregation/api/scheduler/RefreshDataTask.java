@@ -4,7 +4,8 @@ import com.aggregation.api.converter.DtoConverter;
 import com.aggregation.api.exception.RestApiException;
 import com.aggregation.api.model.Account;
 import com.aggregation.api.model.Transaction;
-import com.aggregation.api.repository.TransactionRepository;
+import com.aggregation.api.model.User;
+import com.aggregation.api.repository.UserRepository;
 import com.aggregation.api.rest.ExtApiClient;
 import com.aggregation.api.rest.dto.AccountDto;
 import com.aggregation.api.rest.dto.TransactionDto;
@@ -31,25 +32,33 @@ public class RefreshDataTask {
     @Autowired
     private ExtApiClient extApiClient;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public void updateData() {
-        try {
-            String token = extApiClient.getJWTToken("ionescu");
-            updateAccounts(token);
-            updateTransactions(token);
-        } catch (RestApiException e) {
-            LOGGER.error("Error while calling ext api to get accounts", e);
-        }
+        Iterable<User> allUsers = userRepository.findAll();
+        allUsers.forEach(u -> {
+            try {
+                LOGGER.error("Retrieving token for " + u.getUsername());
+                String token = extApiClient.getJWTToken(u.getUsername());
+                updateAccounts(token, u);
+                updateTransactions(token);
+            } catch (RestApiException e) {
+                LOGGER.error("Error while calling ext api to get accounts for " + u.getUsername(), e);
+            }
+        });
     }
 
-    private void updateAccounts(String token) {
+    private void updateAccounts(String token, User user) {
         try {
             LOGGER.info("Calling ext api to get accounts:");
             List<AccountDto> accounts = extApiClient.getAccounts(token);
             //save in DB
             for (AccountDto accountDto : accounts) {
                 Account accountEntity = DtoConverter.convert(accountDto);
+                accountEntity.setUser(user);
                 accountService.saveAccount(accountEntity);
-                LOGGER.info("Account with id " + accountEntity.getId() + " has been saved.");
+                LOGGER.info("Account with id " + accountEntity.getId() + " has been saved/updated.");
             }
         } catch (RestApiException e) {
             LOGGER.error("Error while calling ext api to get accounts", e);
