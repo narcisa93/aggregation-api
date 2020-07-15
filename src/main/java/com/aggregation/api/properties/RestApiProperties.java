@@ -1,7 +1,6 @@
 package com.aggregation.api.properties;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,8 +18,6 @@ public class RestApiProperties {
     private String accountsPath;
     @Value("${ext-api.transactions.path}")
     private String transactionsPath;
-
-    private MediaType mediaType = MediaType.APPLICATION_JSON;
 
     public String getProtocol() {
         return protocol;
@@ -68,9 +65,5 @@ public class RestApiProperties {
 
     public void setTransactionsPath(String transactionsPath) {
         this.transactionsPath = transactionsPath;
-    }
-
-    public MediaType getMediaType() {
-        return mediaType;
     }
 }

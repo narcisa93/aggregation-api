@@ -12,8 +12,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.Collections;
 
 @Component
 public class RestApiClient {
@@ -25,12 +24,13 @@ public class RestApiClient {
     private static final String ACCEPT_ENCODING_HEADER = "Accept-Encoding";
     private static final String ACCEPT_ENCODING_VALUE = "gzip, deflate";
     private static final String CACHE_CONTROL_VALUE = "no-cache";
+    private static final MediaType MEDIA_TYPE_APPLICATION_JSON = MediaType.APPLICATION_JSON;
 
     @Autowired
     RestTemplate restTemplate;
 
     public ResponseEntity<String> doGetRequest(String pathUrl, String token, RestApiProperties restApiProperties) throws RestApiException {
-        HttpEntity<String> request = buildHttpEntityWithTokenAuth(restApiProperties, token);
+        HttpEntity<String> request = buildHttpEntityWithTokenAuth(token);
         ResponseEntity<String> restResponse;
         try {
             String operationPath = buildPath(restApiProperties, pathUrl);
@@ -51,7 +51,7 @@ public class RestApiClient {
     }
 
     public ResponseEntity<String> doPostRequest(String pathUrl, String username, RestApiProperties restApiProperties) throws RestApiException {
-        HttpEntity<String> request = buildHttpEntityWithUsername(restApiProperties, username);
+        HttpEntity<String> request = buildHttpEntityWithUsername(username);
         ResponseEntity<String> restResponse;
         try {
             String operationPath = buildPath(restApiProperties, pathUrl);
@@ -79,32 +79,30 @@ public class RestApiClient {
                 .toUriString();
     }
 
-    private HttpEntity<String> buildHttpEntityWithUsername(RestApiProperties properties, String username) {
-        final HttpHeaders headers = buildHttpHeadersWithUsername(properties, username);
+    private HttpEntity<String> buildHttpEntityWithUsername(String username) {
+        final HttpHeaders headers = buildHttpHeadersWithUsername(username);
         return new HttpEntity<>(headers);
     }
 
-    private HttpEntity<String> buildHttpEntityWithTokenAuth(RestApiProperties properties, String token) {
-        final HttpHeaders headers = buildHttpHeadersWithToken(properties, token);
+    private HttpEntity<String> buildHttpEntityWithTokenAuth(String token) {
+        final HttpHeaders headers = buildHttpHeadersWithToken(token);
         return new HttpEntity<>(headers);
     }
 
-    private HttpHeaders buildHttpHeadersWithToken(RestApiProperties properties, String token) {
-        MediaType mediaType = properties.getMediaType();
+    private HttpHeaders buildHttpHeadersWithToken(String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(X_AUTH_HEADER, token);
         headers.setCacheControl(CACHE_CONTROL_VALUE);
-        headers.setAccept(Arrays.asList(MediaType.ALL));
-        headers.setContentType(mediaType);
+        headers.setAccept(Collections.singletonList(MediaType.ALL));
+        headers.setContentType(MEDIA_TYPE_APPLICATION_JSON);
         headers.set(ACCEPT_ENCODING_HEADER, ACCEPT_ENCODING_VALUE);
         return headers;
     }
 
-    private HttpHeaders buildHttpHeadersWithUsername(RestApiProperties properties, String username) {
-        MediaType mediaType = properties.getMediaType();
+    private HttpHeaders buildHttpHeadersWithUsername(String username) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(USERNAME_HEADER, username);
-        headers.setContentType(mediaType);
+        headers.setContentType(MEDIA_TYPE_APPLICATION_JSON);
         return headers;
     }
 }

@@ -18,7 +18,7 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @RequestMapping(value = "/transactions", method = RequestMethod.GET)
-    public ResponseEntity<List<Transaction>> getAccounts() {
+    public ResponseEntity<List<Transaction>> getTransactions() {
         List<Transaction> transactions = transactionService.findAllTransactions();
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
