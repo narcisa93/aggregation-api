@@ -27,4 +27,8 @@ public class CustomUserDetailService implements UserDetailsService {
         }
         return new CustomUserPrincipal(user);
     }
+
+    public Iterable<User> findAllUsers() {
+        return userRepository.findAll();
+    }
 }

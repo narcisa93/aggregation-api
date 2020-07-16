@@ -18,16 +18,22 @@ public class AccountDto {
 
     @JsonProperty("id")
     private String id;
+
     @JsonProperty("update")
     private String update;
+
     @JsonProperty("name")
     private String name;
+
     @JsonProperty("product")
     private String product;
+
     @JsonProperty("status")
     private String status;
+
     @JsonProperty("type")
     private String type;
+
     @JsonProperty("balance")
     private Double balance;
 

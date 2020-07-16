@@ -13,6 +13,7 @@ public class OriginalAmountDto {
 
     @JsonProperty("amount")
     private Double amount;
+
     @JsonProperty("currency")
     private String currency;
 

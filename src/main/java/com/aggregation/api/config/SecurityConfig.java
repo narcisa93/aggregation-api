@@ -14,17 +14,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.csrf()
-                .disable()
+        http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/console/**").permitAll()
                 .antMatchers("/h2/**").permitAll()
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .permitAll();
-        http.headers().frameOptions().disable();
+                .formLogin().permitAll();
+        http
+                .headers().frameOptions().disable();
     }
 
     @Bean

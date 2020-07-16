@@ -5,11 +5,11 @@ import com.aggregation.api.exception.RestApiException;
 import com.aggregation.api.model.Account;
 import com.aggregation.api.model.Transaction;
 import com.aggregation.api.model.User;
-import com.aggregation.api.repository.UserRepository;
 import com.aggregation.api.rest.ExtApiClient;
 import com.aggregation.api.rest.dto.AccountDto;
 import com.aggregation.api.rest.dto.TransactionDto;
 import com.aggregation.api.service.AccountService;
+import com.aggregation.api.service.CustomUserDetailService;
 import com.aggregation.api.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +33,10 @@ public class RefreshDataTask {
     private ExtApiClient extApiClient;
 
     @Autowired
-    private UserRepository userRepository;
+    private CustomUserDetailService userService;
 
     public void updateData() {
-        Iterable<User> allUsers = userRepository.findAll();
+        Iterable<User> allUsers = userService.findAllUsers();
         allUsers.forEach(u -> {
             try {
                 LOGGER.error("Retrieving token for " + u.getUsername());
@@ -53,7 +53,7 @@ public class RefreshDataTask {
         try {
             LOGGER.info("Calling ext api to get accounts:");
             List<AccountDto> accounts = extApiClient.getAccounts(token);
-            //save in DB
+
             for (AccountDto accountDto : accounts) {
                 Account accountEntity = DtoConverter.convert(accountDto);
                 accountEntity.setUser(user);
@@ -67,7 +67,9 @@ public class RefreshDataTask {
 
     private void updateTransactions(String token) {
         try {
+            LOGGER.info("Calling ext api to get transactions:");
             List<TransactionDto> transactions = extApiClient.getTransactions(token);
+
             List<Transaction> transactionEntities = new ArrayList<>();
             for (TransactionDto transactionDto : transactions) {
                 Account account = accountService.findAccountById(transactionDto.getAccountId());

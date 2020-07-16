@@ -13,6 +13,7 @@ public class CreditorDto {
 
     @JsonProperty("maskedPan")
     private String maskedPan;
+
     @JsonProperty("name")
     private String name;
 

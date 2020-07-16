@@ -22,24 +22,34 @@ public class TransactionDto {
 
     @JsonProperty("id")
     private String id;
+
     @JsonProperty("accountId")
     private String accountId;
+
     @JsonProperty("exchangeRate")
     private ExchangeRateDto exchangeRate;
+
     @JsonProperty("originalAmount")
     private OriginalAmountDto originalAmount;
+
     @JsonProperty("creditor")
     private CreditorDto creditor;
+
     @JsonProperty("debtor")
     private DebtorDto debtor;
+
     @JsonProperty("status")
     private String status;
+
     @JsonProperty("currency")
     private String currency;
+
     @JsonProperty("amount")
     private Double amount;
+
     @JsonProperty("update")
     private String update;
+
     @JsonProperty("description")
     private String description;
 

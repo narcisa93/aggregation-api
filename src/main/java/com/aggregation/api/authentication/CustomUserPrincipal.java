@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class CustomUserPrincipal implements UserDetails {
+
     private final User user;
 
     public CustomUserPrincipal(User user) {

@@ -2,8 +2,7 @@ package com.aggregation.api.converter;
 
 import com.aggregation.api.model.Account;
 import com.aggregation.api.model.Transaction;
-import com.aggregation.api.rest.dto.AccountDto;
-import com.aggregation.api.rest.dto.TransactionDto;
+import com.aggregation.api.rest.dto.*;
 
 public class DtoConverter {
 
@@ -27,6 +26,31 @@ public class DtoConverter {
         transaction.setStatus(transactionDto.getStatus());
         transaction.setUpdate(transactionDto.getUpdate());
         transaction.setDescription(transactionDto.getDescription());
+
+        ExchangeRateDto exchangeRateDto = transactionDto.getExchangeRate();
+        if (exchangeRateDto != null) {
+            transaction.setExchangeRate(exchangeRateDto.getRate());
+            transaction.setExchangeRateCurrencyFrom(exchangeRateDto.getCurrencyFrom());
+            transaction.setExchangeRateCurrencyTo(exchangeRateDto.getCurrencyTo());
+        }
+
+        OriginalAmountDto originalAmountDto = transactionDto.getOriginalAmount();
+        if (originalAmountDto != null) {
+            transaction.setOriginalAmount(originalAmountDto.getAmount());
+            transaction.setOriginalAmountCurrency(originalAmountDto.getCurrency());
+        }
+
+        DebtorDto debtorDto = transactionDto.getDebtor();
+        if (debtorDto != null) {
+            transaction.setDebtorMaskedPan(debtorDto.getMaskedPan());
+            transaction.setDebtorName(debtorDto.getName());
+        }
+
+        CreditorDto creditorDto = transactionDto.getCreditor();
+        if (creditorDto != null) {
+            transaction.setCreditorMaskedPan(creditorDto.getMaskedPan());
+            transaction.setCreditorName(creditorDto.getName());
+        }
         return transaction;
     }
 

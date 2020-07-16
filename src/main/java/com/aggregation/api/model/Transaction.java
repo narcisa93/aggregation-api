@@ -15,6 +15,15 @@ public class Transaction {
     private Double amount;
     private String update;
     private String description;
+    private Double exchangeRate;
+    private String exchangeRateCurrencyFrom;
+    private String exchangeRateCurrencyTo;
+    private String debtorMaskedPan;
+    private String debtorName;
+    private String creditorMaskedPan;
+    private String creditorName;
+    private Double originalAmount;
+    private String originalAmountCurrency;
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
@@ -78,6 +87,78 @@ public class Transaction {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Double getExchangeRate() {
+        return exchangeRate;
+    }
+
+    public void setExchangeRate(Double exchangeRate) {
+        this.exchangeRate = exchangeRate;
+    }
+
+    public String getExchangeRateCurrencyFrom() {
+        return exchangeRateCurrencyFrom;
+    }
+
+    public void setExchangeRateCurrencyFrom(String exchangeRateCurrencyFrom) {
+        this.exchangeRateCurrencyFrom = exchangeRateCurrencyFrom;
+    }
+
+    public String getExchangeRateCurrencyTo() {
+        return exchangeRateCurrencyTo;
+    }
+
+    public void setExchangeRateCurrencyTo(String exchangeRateCurrencyTo) {
+        this.exchangeRateCurrencyTo = exchangeRateCurrencyTo;
+    }
+
+    public String getDebtorMaskedPan() {
+        return debtorMaskedPan;
+    }
+
+    public void setDebtorMaskedPan(String debtorMaskedPan) {
+        this.debtorMaskedPan = debtorMaskedPan;
+    }
+
+    public String getDebtorName() {
+        return debtorName;
+    }
+
+    public void setDebtorName(String debtorName) {
+        this.debtorName = debtorName;
+    }
+
+    public String getCreditorMaskedPan() {
+        return creditorMaskedPan;
+    }
+
+    public void setCreditorMaskedPan(String creditorMaskedPan) {
+        this.creditorMaskedPan = creditorMaskedPan;
+    }
+
+    public String getCreditorName() {
+        return creditorName;
+    }
+
+    public void setCreditorName(String creditorName) {
+        this.creditorName = creditorName;
+    }
+
+    public Double getOriginalAmount() {
+        return originalAmount;
+    }
+
+    public void setOriginalAmount(Double originalAmount) {
+        this.originalAmount = originalAmount;
+    }
+
+    public String getOriginalAmountCurrency() {
+        return originalAmountCurrency;
+    }
+
+    public void setOriginalAmountCurrency(String originalAmountCurrency) {
+        this.originalAmountCurrency = originalAmountCurrency;
     }
 
     @Override

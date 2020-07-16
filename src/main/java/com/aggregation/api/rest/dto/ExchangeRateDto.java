@@ -1,8 +1,5 @@
 package com.aggregation.api.rest.dto;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -17,8 +14,10 @@ public class ExchangeRateDto {
 
     @JsonProperty("currencyFrom")
     private String currencyFrom;
+
     @JsonProperty("currencyTo")
     private String currencyTo;
+
     @JsonProperty("rate")
     private Double rate;
 

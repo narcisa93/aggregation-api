@@ -8,14 +8,19 @@ public class RestApiProperties {
 
     @Value ("${ext-api.protocol}")
     private String protocol;
+
     @Value("${ext-api.host}")
     private String host;
+
     @Value("${ext-api.port}")
     private String port;
+
     @Value("${ext-api.login.path}")
     private String loginPath;
+
     @Value("${ext-api.accounts.path}")
     private String accountsPath;
+
     @Value("${ext-api.transactions.path}")
     private String transactionsPath;
 
